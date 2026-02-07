@@ -107,10 +107,9 @@ export function useAdmin(eventId: string) {
 
       if (teamError) throw teamError;
 
-      // Adicionar jogadores (player_name obrigatório no schema Figma)
+      // Adicionar jogadores
       const playersData = players.map((player, i) => ({
         event_id: eventId,
-        player_name: player.name,
         name: player.name,
         phone: player.phone,
         instagram: player.instagram || null,
@@ -147,7 +146,6 @@ export function useAdmin(eventId: string) {
         .from('queue_players')
         .insert({
           event_id: eventId,
-          player_name: name,
           name,
           phone,
           instagram: instagram || null,

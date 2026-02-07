@@ -70,7 +70,6 @@ export function useQueue(eventId: string) {
       // 2. Adicionar os 5 jogadores
       const playersData = players.map((player, i) => ({
         event_id: eventId,
-        player_name: player.name,
         name: player.name,
         phone: player.phone,
         instagram: player.instagram || null,
@@ -120,13 +119,12 @@ export function useQueue(eventId: string) {
         throw new Error('Você já está na fila!');
       }
 
-      // Adicionar jogador avulso (player_name obrigatório no schema Figma)
+      // Adicionar jogador avulso
       const { count } = await supabase.from('queue_players').select('*', { count: 'exact', head: true }).eq('event_id', eventId);
       const { error } = await supabase
         .from('queue_players')
         .insert({
           event_id: eventId,
-          player_name: name,
           name,
           phone,
           instagram: instagram || null,
