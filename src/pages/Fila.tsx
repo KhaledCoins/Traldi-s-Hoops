@@ -74,6 +74,24 @@ export function Fila({ eventId, onNavigate }: FilaProps) {
     );
   }
 
+  // Estado: Evento não encontrado
+  if (!event) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <Card className="p-12 max-w-md text-center">
+          <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-white mb-4">Evento não encontrado</h3>
+          <p className="text-gray-400 mb-6">
+            Não foi possível carregar os dados do evento. Verifique sua conexão e tente novamente.
+          </p>
+          <Button variant="primary" onClick={() => onNavigate('eventos')}>
+            Ver eventos
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
   // Estado: Evento pausado
   if (event?.is_paused) {
     return (

@@ -17,8 +17,16 @@ export function useQueue(eventId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Carregar dados iniciais
+  // Carregar dados iniciais (não faz chamadas quando eventId vazio)
   const loadData = async () => {
+    if (!eventId) {
+      setEvent(null);
+      setSoloQueue([]);
+      setTeamsQueue([]);
+      setLoading(false);
+      setError(null);
+      return;
+    }
     try {
       setLoading(true);
       setError(null);
@@ -209,11 +217,11 @@ export function useQueue(eventId: string) {
     }
   };
 
-  // Subscribe para atualizações em tempo real
+  // Subscribe para atualizações em tempo real (não subscribe quando eventId vazio)
   useEffect(() => {
     loadData();
 
-    if (supabase) {
+    if (eventId && supabase) {
       const unsubscribe = subscribeToQueue(eventId, loadData);
       return unsubscribe;
     }

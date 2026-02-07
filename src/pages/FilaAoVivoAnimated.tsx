@@ -119,17 +119,18 @@ export function FilaAoVivoAnimated({ eventId, onNavigate }: FilaAoVivoAnimatedPr
 
   // Update elapsed time
   useEffect(() => {
-    if (!displayState?.agora.startedAt) return;
+    const startedAt = displayState?.agora?.startedAt;
+    if (!startedAt) return;
 
     const interval = setInterval(() => {
-      const startTime = new Date(displayState.agora.startedAt!);
+      const startTime = new Date(startedAt);
       const now = new Date();
       const elapsed = Math.floor((now.getTime() - startTime.getTime()) / 1000);
       setElapsedTime(elapsed);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [displayState?.agora.startedAt]);
+  }, [displayState?.agora?.startedAt]);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('pt-BR', { 
@@ -229,7 +230,7 @@ export function FilaAoVivoAnimated({ eventId, onNavigate }: FilaAoVivoAnimatedPr
             <h2 className="text-white">JOGANDO AGORA</h2>
           </div>
           
-          {displayState.agora.teamA && displayState.agora.teamB && (
+          {displayState.agora?.teamA && displayState.agora?.teamB && (
             <div className="card p-6 md:p-10 border-white bg-gradient-to-br from-gray-900 to-black">
               <div className="flex items-center justify-center gap-2 mb-6">
                 <Clock className="w-5 h-5 text-gray-400" />
@@ -281,12 +282,12 @@ export function FilaAoVivoAnimated({ eventId, onNavigate }: FilaAoVivoAnimatedPr
             <Users className="w-6 h-6 text-white" />
             <h3 className="text-white">PRÓXIMOS NA FILA</h3>
             <span className="text-gray-500 text-sm">
-              ({displayState.proximos.length} times aguardando)
+              ({(displayState.proximos || []).length} times aguardando)
             </span>
           </div>
           
           <div className="grid gap-3">
-            {displayState.proximos.map((team, index) => (
+            {(displayState.proximos || []).map((team, index) => (
               <div
                 key={team.id}
                 className={`card p-4 md:p-6 hover:border-white transition-colors ${
