@@ -229,6 +229,11 @@ Para remover alguém específico:
 - Verifique as Row Level Security policies
 - Devem permitir INSERT/SELECT com role anon
 
+### **"Pausar fila", "Remover avulso" ou "Limpar fila" não funcionam"**
+- O painel admin usa a chave anon (sem login)
+- Execute a migration 004 no SQL Editor do Supabase:
+- Acesse **SQL Editor** → **New Query** → cole o conteúdo de `src/supabase/migrations/004_anon_admin_policies.sql` → **RUN**
+
 ---
 
 ## 🎉 ESTÁ TUDO PRONTO!
